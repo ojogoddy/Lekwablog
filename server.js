@@ -8,7 +8,7 @@ const rateLimit = require('express-rate-limit');
 const authRoutes = require('./routes/auth');
 const postRoutes = require('./routes/posts');
 const projectRoutes = require('./routes/projects');
-
+const godwinRoutes = require("./routes/godwin")
 dotenv.config();
 const app = express();
 
@@ -24,6 +24,7 @@ app.use(limiter);
 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({extended:true}))
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
@@ -37,6 +38,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/godwin', godwinRoutes);
 
 // Basic route
 app.get('/', (req, res) => {
