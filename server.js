@@ -38,7 +38,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/projects', projectRoutes);
-app.use('/api/godwin', godwinRoutes);
+app.use('/api/post', godwinRoutes);
 
 // Basic route
 app.get('/', (req, res) => {

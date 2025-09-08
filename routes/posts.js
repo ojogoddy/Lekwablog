@@ -244,10 +244,19 @@ router.delete('/:id', authMiddleware, async (req, res) => {
         const post = await Post.findById(req.params.id);
         if (!post) return res.status(404).json({ message: 'Post not found' });
 
+        // if (post.imageUrl) {
+        //     const publicId = post.imageUrl.split('/').pop().split('.')[0];
+        //     await cloudinary.uploader.destroy(`blog_images/${publicId}`);
+        // }
         if (post.imageUrl) {
-            const publicId = post.imageUrl.split('/').pop().split('.')[0];
-            await cloudinary.uploader.destroy(`blog_images/${publicId}`);
-        }
+            try {
+                const publicId = post.imageUrl.split('/').pop().split('.')[0];
+                await cloudinary.uploader.destroy(`blog_images/${publicId}`);
+            } catch (err) {
+                console.error("Cloudinary delete error:", err.message);
+                // don't throw, just log it
+            }
+          }
 
         await Post.findByIdAndDelete(req.params.id);
         res.json({ message: 'Post deleted' });
