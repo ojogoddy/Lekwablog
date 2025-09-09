@@ -8,11 +8,9 @@ const rateLimit = require('express-rate-limit');
 const authRoutes = require('./routes/auth');
 const postRoutes = require('./routes/posts');
 const projectRoutes = require('./routes/projects');
-const godwinRoutes = require("./routes/godwin")
+// const godwinRoutes = require("./routes/godwin")
 dotenv.config();
 const app = express();
-
-// Middleware
 
 // security middleware
 app.use(helmet());
@@ -27,10 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
+mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.error('MongoDB connection error:', err));
 
@@ -38,7 +33,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/projects', projectRoutes);
-app.use('/api/post', godwinRoutes);
+// app.use('/api/post', godwinRoutes);
 
 // Basic route
 app.get('/', (req, res) => {
